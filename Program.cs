@@ -10,22 +10,22 @@ namespace IS_lab_1
         {
             try
             {
-                char[] russianAlfabet = Enumerable.Range('А', 'Я' - 'А' + 1)
-                                                  .Select(Convert.ToChar)
-                                                  .Concat("Ё .,")
+                char[] russianAlfabet = Enumerable.Range('А', 'Я' - 'А' + 1) // создает список букв от А до Я, за исключением Ё
+                                                  .Select(Convert.ToChar)    // преобразуем каждый элемент списка к типу char
+                                                  .Concat("Ё .,")            // присоединяем в конец списка дополнительные символы
                                                   .ToArray();
 
                 Console.WriteLine("Введите ключевое слово: ");
                 char[] keyword = Console.ReadLine()
-                                        .ToUpper()
-                                        .Distinct()
+                                        .ToUpper() 
+                                        .Distinct() // убирет повторяющиеся символы
                                         .ToArray();
 
                 char[] cipherAlfabet = new char[36];
 
                 keyword.CopyTo(cipherAlfabet, 0);
 
-                russianAlfabet.Except(keyword)
+                russianAlfabet.Except(keyword)  // исключает из одного списка элементы другого списока
                               .ToArray()
                               .CopyTo(cipherAlfabet, keyword.Length);
 
@@ -34,8 +34,8 @@ namespace IS_lab_1
                                      .ToUpper()
                                      .ToArray();
 
-                char[] encripted = text.Select(c => Array.IndexOf(cipherAlfabet, c))
-                                       .Select(index => index + 6 < cipherAlfabet.Length
+                char[] encripted = text.Select(c => Array.IndexOf(cipherAlfabet, c))       // преобразует список символов исходного текста в список индексов этих символов в алфавите
+                                       .Select(index => index + 6 < cipherAlfabet.Length   // преобразует список индексов символов исходного текста в символы шифротекста согласно заданному смещению
                                                         ? cipherAlfabet[index + 6]
                                                         : cipherAlfabet[index - 30])
                                        .ToArray();
